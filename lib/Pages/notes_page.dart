@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:notes/Database/notes_database.dart';
 import 'package:notes/Model/note.dart';
 import 'package:notes/Pages/add_edit_note.dart';
@@ -12,6 +13,7 @@ class NotesPage extends StatefulWidget {
 }
 
 class _NotesPageState extends State<NotesPage> {
+  late bool isDark;
   late List<Note> notes;
   late Note? note;
   bool isLoading = false;
@@ -38,11 +40,14 @@ class _NotesPageState extends State<NotesPage> {
 
   @override
   Widget build(BuildContext context) {
+    final Brightness brightness=MediaQuery.of(context).platformBrightness;
+    isDark=brightness==Brightness.dark;
     return WillPopScope(
       onWillPop: () => backButtonPressed(),
       child: Scaffold(
-        backgroundColor: Color.fromRGBO(220, 220, 220, 1),
+        backgroundColor: isDark?Theme.of(context).scaffoldBackgroundColor:Color.fromRGBO(220, 220, 220, 1),
         appBar: AppBar(
+          backgroundColor: isDark?Theme.of(context).primaryColorDark:Theme.of(context).primaryColorLight,
           title: isSelected
               ? Text('${selectedItem.length} Items Selected')
               : const Text('Notes'),
@@ -79,11 +84,13 @@ class _NotesPageState extends State<NotesPage> {
                   : buildNotesList(),
         ),
         floatingActionButton: FloatingActionButton(
+          backgroundColor: isDark?Theme.of(context).floatingActionButtonTheme.backgroundColor:Theme.of(context).primaryColorLight,
             child: const Icon(Icons.add),
             onPressed: () {
               showDialog(
                 context: context,
                 builder: (BuildContext context) => AlertDialog(
+                  backgroundColor: isDark?Theme.of(context).canvasColor:Colors.white,
                   title: Text('ADD'),
                   content: Container(
                     height: 100,
@@ -91,15 +98,10 @@ class _NotesPageState extends State<NotesPage> {
                     child: ListView(
                       children: [
                         ListTile(
-                          leading: Icon(Icons.sticky_note_2_rounded),
+                          leading: Icon(Icons.sticky_note_2_rounded,color: isDark?Theme.of(context).floatingActionButtonTheme.backgroundColor:Theme.of(context).primaryColorLight,),
                           title: Text('Text'),
                           onTap: () async {
-                            await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const addEditNote(type: 'standard')));
-                            Navigator.pop(context);
+                            await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>addEditNote(type: 'standard')), (route) => route.isFirst);
                             refreshNotes();
                           },
                         ),
@@ -107,15 +109,10 @@ class _NotesPageState extends State<NotesPage> {
                           height: 5,
                         ),
                         ListTile(
-                          leading: Icon(Icons.check_box),
+                          leading: Icon(Icons.check_box,color: isDark?Theme.of(context).floatingActionButtonTheme.backgroundColor:Theme.of(context).primaryColorLight,),
                           title: Text('List'),
                           onTap: () async {
-                            await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const addEditNote(type: 'list')));
-                            Navigator.pop(context);
+                            await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>addEditNote(type: 'list')), (route) => route.isFirst);
                             refreshNotes();
                           },
                         ),
@@ -156,7 +153,7 @@ class _NotesPageState extends State<NotesPage> {
                   minVerticalPadding: 10,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
-                  tileColor: Colors.white,
+                  tileColor: isDark?Theme.of(context).canvasColor:Colors.white,
                   onTap: isSelected
                       ? () => setState(() {
                             selectItem(notes[index]);
@@ -276,10 +273,10 @@ class _NotesPageState extends State<NotesPage> {
   }
 
   backButtonPressed() {
-    setState(() {
+    isSelected==true?setState(() {
       isSelected = false;
       selectedItem.clear();
-    });
+    }):SystemChannels.platform.invokeMethod('SystemNavigator.pop');
   }
 
   deleteNotes() {

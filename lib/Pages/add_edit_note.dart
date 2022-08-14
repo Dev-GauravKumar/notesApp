@@ -13,6 +13,7 @@ class addEditNote extends StatefulWidget {
 }
 
 class _addEditNoteState extends State<addEditNote> {
+  late bool isDark;
   late List<bool> _value = [];
   late List<String>? conversion = [];
   late String title;
@@ -38,10 +39,14 @@ class _addEditNoteState extends State<addEditNote> {
 
   @override
   Widget build(BuildContext context) {
+    final Brightness brightness=MediaQuery.of(context).platformBrightness;
+    isDark=brightness==Brightness.dark;
     return WillPopScope(
       onWillPop: () => onBackPressed(),
       child: Scaffold(
+        backgroundColor: isDark?Theme.of(context).canvasColor:Colors.white,
         appBar: AppBar(
+          backgroundColor: isDark?Theme.of(context).primaryColorDark:Theme.of(context).primaryColorLight,
           actions: [
             widget.note != null
                 ? IconButton(
@@ -56,6 +61,7 @@ class _addEditNoteState extends State<addEditNote> {
         body: widget.type == 'standard' ? buildStandard() : buildList(),
         floatingActionButton: widget.type == 'list'
             ? FloatingActionButton(
+          backgroundColor: isDark?Theme.of(context).floatingActionButtonTheme.backgroundColor:Theme.of(context).primaryColorLight,
                 child: Icon(Icons.add), onPressed: () => addItems(''))
             : null,
       ),
@@ -73,7 +79,8 @@ class _addEditNoteState extends State<addEditNote> {
     return showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('add'),
+        backgroundColor: isDark?Theme.of(context).canvasColor:Colors.white,
+        title: Text('ADD'),
         content: TextFormField(
             onTap: () => isTyping = true,
             maxLines: 1,
@@ -92,13 +99,13 @@ class _addEditNoteState extends State<addEditNote> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Cancel')),
+              child: Text('Cancel',style: TextStyle(color: isDark?Colors.black:Colors.blue),)),
           TextButton(
               onPressed: () {
                 description.isEmpty ? null : addItem();
                 Navigator.pop(context);
               },
-              child: Text('Ok')),
+              child: Text('Ok',style: TextStyle(color: isDark?Colors.black:Colors.blue),)),
         ],
       ),
     );
@@ -178,6 +185,7 @@ class _addEditNoteState extends State<addEditNote> {
                 itemCount: list!.length,
                 itemBuilder: (context, index) {
                   return CheckboxListTile(
+                    activeColor: isDark?Theme.of(context).floatingActionButtonTheme.backgroundColor:Theme.of(context).primaryColorLight,
                       controlAffinity: ListTileControlAffinity.leading,
                       checkColor: Colors.white,
                       value: _value[index],
@@ -190,13 +198,15 @@ class _addEditNoteState extends State<addEditNote> {
                         children: [
                           list![index].isEmpty
                               ? SizedBox()
-                              : Text(
-                                  list![index],
-                                  style: TextStyle(
-                                      decoration: _value[index]
-                                          ? TextDecoration.lineThrough
-                                          : TextDecoration.none),
-                                ),
+                              : Expanded(
+                                child: Text(
+                                    list![index],
+                                    style: TextStyle(
+                                        decoration: _value[index]
+                                            ? TextDecoration.lineThrough
+                                            : TextDecoration.none),
+                                  ),
+                              ),
                           IconButton(
                               onPressed: () => setState(() {
                                     list!.remove(list![index]);
@@ -265,7 +275,8 @@ class _addEditNoteState extends State<addEditNote> {
     await showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              title: const Center(child: Text('Delete Note')),
+          backgroundColor: isDark?Theme.of(context).canvasColor:Colors.white,
+          title: const Center(child: Text('Delete Note')),
               content: const Padding(
                 padding: EdgeInsets.only(left: 50),
                 child: Text('Delete This Note?'),
@@ -275,13 +286,13 @@ class _addEditNoteState extends State<addEditNote> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     FloatingActionButton.extended(
-                        backgroundColor: Colors.grey,
+                        backgroundColor: isDark?Colors.black38:Colors.grey,
                         label: const Text('Cancle'),
                         onPressed: () async {
                           Navigator.pop(context);
                         }),
                     FloatingActionButton.extended(
-                        backgroundColor: Colors.blue,
+                        backgroundColor: isDark?Theme.of(context).floatingActionButtonTheme.backgroundColor:Theme.of(context).primaryColorLight,
                         label: const Text('Delete'),
                         onPressed: () async {
                           await NotesDatabase.instance.delete(note.id!);
