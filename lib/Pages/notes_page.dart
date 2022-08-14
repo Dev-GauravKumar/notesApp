@@ -135,10 +135,18 @@ class _NotesPageState extends State<NotesPage> {
                   selectedColor: Colors.black,
                   trailing: isSelected
                       ? selectedItem.contains(notes[index])
-                          ? Icon(
-                              Icons.check_circle,
-                              color: Colors.yellow,
-                            )
+                          ? Container(
+                    height: 25,
+                    width: 25,
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),
+                      color: isDark?Theme.of(context).floatingActionButtonTheme.backgroundColor:Theme.of(context).primaryColorLight,
+                    ),
+                            child: Icon(
+                                Icons.check,
+                              color: Colors.white,
+                              size: 20,
+                              ),
+                          )
                           : Icon(Icons.circle)
                       : SizedBox(
                           width: 0,
@@ -149,11 +157,11 @@ class _NotesPageState extends State<NotesPage> {
                           ? true
                           : false
                       : false,
-                  selectedTileColor: Colors.black12,
+                  selectedTileColor: Theme.of(context).canvasColor,
                   minVerticalPadding: 10,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
-                  tileColor: isDark?Theme.of(context).canvasColor:Colors.white,
+                  tileColor: isDark?Colors.grey[100]:Colors.white,
                   onTap: isSelected
                       ? () => setState(() {
                             selectItem(notes[index]);

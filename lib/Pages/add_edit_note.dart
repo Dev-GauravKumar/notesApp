@@ -46,6 +46,7 @@ class _addEditNoteState extends State<addEditNote> {
       child: Scaffold(
         backgroundColor: isDark?Theme.of(context).canvasColor:Colors.white,
         appBar: AppBar(
+          title: widget.note!=null?Text(widget.note!.title,overflow: TextOverflow.ellipsis,):Text('Add Note'),
           backgroundColor: isDark?Theme.of(context).primaryColorDark:Theme.of(context).primaryColorLight,
           actions: [
             widget.note != null
