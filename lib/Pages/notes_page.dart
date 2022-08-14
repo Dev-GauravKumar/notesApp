@@ -98,7 +98,7 @@ class _NotesPageState extends State<NotesPage> {
                     child: ListView(
                       children: [
                         ListTile(
-                          leading: Icon(Icons.sticky_note_2_rounded,color: isDark?Theme.of(context).floatingActionButtonTheme.backgroundColor:Theme.of(context).primaryColorLight,),
+                          leading: Icon(Icons.sticky_note_2_rounded,color: isDark?Colors.black54:Theme.of(context).primaryColorLight,),
                           title: Text('Text'),
                           onTap: () async {
                             await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>addEditNote(type: 'standard')), (route) => route.isFirst);
@@ -109,7 +109,7 @@ class _NotesPageState extends State<NotesPage> {
                           height: 5,
                         ),
                         ListTile(
-                          leading: Icon(Icons.check_box,color: isDark?Theme.of(context).floatingActionButtonTheme.backgroundColor:Theme.of(context).primaryColorLight,),
+                          leading: Icon(Icons.check_box,color: isDark?Colors.black54:Theme.of(context).primaryColorLight,),
                           title: Text('List'),
                           onTap: () async {
                             await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>addEditNote(type: 'list')), (route) => route.isFirst);
