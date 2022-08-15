@@ -12,14 +12,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        primaryColorLight: Color.fromRGBO(255, 191, 0,1),
+        primaryColorLight: const Color.fromRGBO(255, 191, 0,1),
         primaryColorDark: Colors.blueGrey,
         canvasColor: Colors.grey,
-        floatingActionButtonTheme: FloatingActionButtonThemeData(backgroundColor: Colors.blueGrey),
-        scaffoldBackgroundColor: Color.fromRGBO(54, 69, 79, 1),
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(backgroundColor: Colors.blueGrey),
+        scaffoldBackgroundColor: const Color.fromRGBO(54, 69, 79, 1),
       ),
       debugShowCheckedModeBanner: false,
-      home: NotesPage(),
+      home: const NotesPage(),
     );
   }
 }

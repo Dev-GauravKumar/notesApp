@@ -1,14 +1,14 @@
 
-final String tableNotes = 'notes';
+const String tableNotes = 'notes';
 
 class NoteFields{
   static final List<String> values = [id,title,description,time];
-  static final String id = '_id';
-  static final String title = 'title';
-  static final String description = 'description';
-  static final String time = 'time';
-  static final String type = 'type';
-  static final String state = 'state';
+  static const String id = '_id';
+  static const String title = 'title';
+  static const String description = 'description';
+  static const String time = 'time';
+  static const String type = 'type';
+  static const String state = 'state';
 
 }
 

@@ -11,7 +11,7 @@ class search_button extends SearchDelegate<Note> {
         onPressed: () {
           query = '';
         },
-        icon: Icon(Icons.close),
+        icon: const Icon(Icons.close),
       ),
     ];
   }
@@ -22,7 +22,7 @@ class search_button extends SearchDelegate<Note> {
         onPressed: () {
           Navigator.pop(context);
         },
-        icon: Icon(Icons.arrow_back));
+        icon: const Icon(Icons.arrow_back));
   }
 
   @override
@@ -60,7 +60,7 @@ class search_button extends SearchDelegate<Note> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 suggetions[index].description == ''
-                    ? SizedBox()
+                    ? const SizedBox()
                     : suggetions[index].title == ''
                     ? suggetions[index].description.contains('\n')
                     ? suggetions[index]
@@ -104,8 +104,8 @@ class search_button extends SearchDelegate<Note> {
                         .description
                         .length)
                     .replaceAll('\n', ' '))
-                    : SizedBox()
-                    : SizedBox()
+                    : const SizedBox()
+                    : const SizedBox()
                     : suggetions[index].description.contains('\n')
                     ? Text(
                     suggetions[index].description.substring(
@@ -146,7 +146,7 @@ class search_button extends SearchDelegate<Note> {
             element.description.toLowerCase().contains(query.toLowerCase()))
         .toList();
     return Scaffold(
-      backgroundColor: Color.fromRGBO(220, 220, 220, 1),
+      backgroundColor: const Color.fromRGBO(220, 220, 220, 1),
       body: ListView.builder(
           itemCount: suggetions.length,
           itemBuilder: (context, index) => Padding(
@@ -175,7 +175,7 @@ class search_button extends SearchDelegate<Note> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   suggetions[index].description == ''
-                      ? SizedBox()
+                      ? const SizedBox()
                       : suggetions[index].title == ''
                           ? suggetions[index].description.contains('\n')
                               ? suggetions[index]
@@ -219,8 +219,8 @@ class search_button extends SearchDelegate<Note> {
                                                   .description
                                                   .length)
                                           .replaceAll('\n', ' '))
-                                  : SizedBox()
-                              : SizedBox()
+                                  : const SizedBox()
+                              : const SizedBox()
                           : suggetions[index].description.contains('\n')
                               ? Text(
                                   suggetions[index].description.substring(

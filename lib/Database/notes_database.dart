@@ -23,7 +23,7 @@ class NotesDatabase{
     //final boolType = 'BOOLEAN NOT NULL';
     //final integerType = 'INTEGER NOT NULL';
     const textType = 'TEXT NOT NULL';
-    const nulltype = 'TEXT';
+    const nullType = 'TEXT';
     await db.execute(
       '''
       CREATE TABLE $tableNotes(
@@ -32,11 +32,10 @@ class NotesDatabase{
       ${NoteFields.description} $textType,
       ${NoteFields.time} $textType,
       ${NoteFields.type} $textType,
-      ${NoteFields.state} $nulltype
+      ${NoteFields.state} $nullType
       )
       '''
     );
-    print('database created!');
   }
   Future<Note> create(Note note) async{
     final db = await instance.database;

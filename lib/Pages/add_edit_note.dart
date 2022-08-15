@@ -25,7 +25,7 @@ class _addEditNoteState extends State<addEditNote> {
   void initState() {
     super.initState();
     title = widget.note?.title ?? '';
-    description = widget.note?.description ?? '';
+    widget.type!='list'?description = widget.note?.description ?? '':description='';
     widget.note != null ? list = widget.note?.description.split('\n') : null;
     widget.note != null ? conversion = widget.note?.state!.split(',') : null;
     conversion != null
@@ -46,7 +46,7 @@ class _addEditNoteState extends State<addEditNote> {
       child: Scaffold(
         backgroundColor: isDark?Theme.of(context).canvasColor:Colors.white,
         appBar: AppBar(
-          title: widget.note!=null?Text(widget.note!.title,overflow: TextOverflow.ellipsis,):Text('Add Note'),
+          title: widget.note!=null?Text(widget.note!.title,overflow: TextOverflow.ellipsis,):const Text('Add Note'),
           backgroundColor: isDark?Theme.of(context).primaryColorDark:Theme.of(context).primaryColorLight,
           actions: [
             widget.note != null
@@ -63,7 +63,10 @@ class _addEditNoteState extends State<addEditNote> {
         floatingActionButton: widget.type == 'list'
             ? FloatingActionButton(
           backgroundColor: isDark?Theme.of(context).floatingActionButtonTheme.backgroundColor:Theme.of(context).primaryColorLight,
-                child: Icon(Icons.add), onPressed: () => addItems(''))
+                child: const Icon(Icons.add), onPressed: () {
+          FocusManager.instance.primaryFocus?.unfocus();
+                  addItems();
+                })
             : null,
       ),
     );
@@ -76,19 +79,18 @@ class _addEditNoteState extends State<addEditNote> {
     setState(() {});
   }
 
-  Future addItems(String init) {
+  Future addItems() {
     return showDialog(
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: isDark?Theme.of(context).canvasColor:Colors.white,
-        title: Text('ADD'),
+        title: const Text('ADD ITEM'),
         content: TextFormField(
             onTap: () => isTyping = true,
             maxLines: 1,
-            initialValue: init,
             autocorrect: true,
             style: const TextStyle(
-              fontSize: 25,
+              fontSize: 20,
             ),
             decoration: const InputDecoration(
               border: InputBorder.none,
@@ -198,7 +200,7 @@ class _addEditNoteState extends State<addEditNote> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           list![index].isEmpty
-                              ? SizedBox()
+                              ? const SizedBox()
                               : Expanded(
                                 child: Text(
                                     list![index],
@@ -213,7 +215,7 @@ class _addEditNoteState extends State<addEditNote> {
                                     list!.remove(list![index]);
                                     _value.remove(_value[index]);
                                   }),
-                              icon: Icon(Icons.close)),
+                              icon: const Icon(Icons.close)),
                         ],
                       ));
                 }),
@@ -288,7 +290,7 @@ class _addEditNoteState extends State<addEditNote> {
                   children: [
                     FloatingActionButton.extended(
                         backgroundColor: isDark?Colors.black38:Colors.grey,
-                        label: const Text('Cancle'),
+                        label: const Text('Cancel'),
                         onPressed: () async {
                           Navigator.pop(context);
                         }),

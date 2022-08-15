@@ -45,7 +45,7 @@ class _NotesPageState extends State<NotesPage> {
     return WillPopScope(
       onWillPop: () => backButtonPressed(),
       child: Scaffold(
-        backgroundColor: isDark?Theme.of(context).scaffoldBackgroundColor:Color.fromRGBO(220, 220, 220, 1),
+        backgroundColor: isDark?Theme.of(context).scaffoldBackgroundColor:const Color.fromRGBO(220, 220, 220, 1),
         appBar: AppBar(
           backgroundColor: isDark?Theme.of(context).primaryColorDark:Theme.of(context).primaryColorLight,
           title: isSelected
@@ -91,28 +91,28 @@ class _NotesPageState extends State<NotesPage> {
                 context: context,
                 builder: (BuildContext context) => AlertDialog(
                   backgroundColor: isDark?Theme.of(context).canvasColor:Colors.white,
-                  title: Text('ADD'),
-                  content: Container(
+                  title: const Text('ADD'),
+                  content: SizedBox(
                     height: 100,
                     width: 100,
                     child: ListView(
                       children: [
                         ListTile(
                           leading: Icon(Icons.sticky_note_2_rounded,color: isDark?Colors.black54:Theme.of(context).primaryColorLight,),
-                          title: Text('Text'),
+                          title: const Text('Text'),
                           onTap: () async {
-                            await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>addEditNote(type: 'standard')), (route) => route.isFirst);
+                            await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const addEditNote(type: 'standard')), (route) => route.isFirst);
                             refreshNotes();
                           },
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         ListTile(
                           leading: Icon(Icons.check_box,color: isDark?Colors.black54:Theme.of(context).primaryColorLight,),
-                          title: Text('List'),
+                          title: const Text('List'),
                           onTap: () async {
-                            await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>addEditNote(type: 'list')), (route) => route.isFirst);
+                            await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const addEditNote(type: 'list')), (route) => route.isFirst);
                             refreshNotes();
                           },
                         ),
@@ -141,14 +141,14 @@ class _NotesPageState extends State<NotesPage> {
                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),
                       color: isDark?Theme.of(context).floatingActionButtonTheme.backgroundColor:Theme.of(context).primaryColorLight,
                     ),
-                            child: Icon(
+                            child: const Icon(
                                 Icons.check,
                               color: Colors.white,
                               size: 20,
                               ),
                           )
-                          : Icon(Icons.circle)
-                      : SizedBox(
+                          : const Icon(Icons.circle)
+                      : const SizedBox(
                           width: 0,
                           height: 0,
                         ),
@@ -203,7 +203,7 @@ class _NotesPageState extends State<NotesPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       notes[index].description == ''
-                          ? SizedBox()
+                          ? const SizedBox()
                           : notes[index].title == ''
                               ? notes[index].description.contains('\n')
                                   ? notes[index].description.indexOf('\n') !=
@@ -242,8 +242,8 @@ class _NotesPageState extends State<NotesPage> {
                                                       .description
                                                       .length)
                                               .replaceAll('\n', ' '))
-                                      : SizedBox()
-                                  : SizedBox()
+                                      : const SizedBox()
+                                  : const SizedBox()
                               : notes[index].description.contains('\n')
                                   ? Text(
                                       notes[index].description.substring(
@@ -294,9 +294,9 @@ class _NotesPageState extends State<NotesPage> {
       ));
       return;
     }
-    selectedItem.forEach((element) {
+    for (var element in selectedItem) {
       NotesDatabase.instance.delete(element.id!);
-    });
+    }
     selectedItem.clear();
     refreshNotes();
     setState(
